@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap');
+
+body {
+    margin: 0px;
+    font-family: 'Teko', sans-serif;
+}
+
+.DisplayBox {
+    z-index: 10;
+    position: absolute;
+    display: none;
+}
+
+.card {
+    margin: 10px;
+    width: 400px;
+    height: 150px;
+    padding: 0px;
+    background: #fed9b7;
+    border-radius: 10px;
+
+    display: grid;
+    grid-template-columns: 150px auto; 
+    gap: 0px 25px;
+    grid-template-areas: 
+    "img text"; 
+}
+
+.card .imgbox {
+    grid-area: img;
+}
+
+.card .imgbox input {
+    width: 142px;
+}
+
+.card .imgbox #Img1 {
+    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+    background-image: url(image.jpg);
+    background-size: cover;
+    background-position-x: 50%;
+    background-position-y: 50%;
+}
+
+.card .textbox {
+    grid-area: text;
+}
+
+.card .textbox input:nth-child(1) {
+    background: none;
+    font-size: 37px;
+    width: 200px;
+    transform: translateY(32px);
+    height: 30px;
+}
+
+.card .textbox input:nth-child(3) {
+    background: none;
+    transform: translateY(16px);
+}
+
+.card .textbox h3 {
+    font-size: 40px;
+    margin-top: 24px;
+    margin-bottom: 0px;
+}
+
+.card .textbox p {
+    font-size: 25px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

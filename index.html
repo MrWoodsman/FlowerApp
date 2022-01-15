@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+    <title>Document</title>
+</head>
+<body onload="load()" onunload="save()">
+    <input type="checkbox" name="" id="myCheck" onclick="display()">
+    <div class="card" id="card1">
+        <div class="imgbox">
+            <input class="DisplayBox" type="text" onchange="ChangeImg(this)">
+            <div id="Img1"></div>
+        </div>
+        <div class="textbox">
+            <input class="DisplayBox" type="text" onchange="ChangeTitle(this)">
+            <h3 class="View" id="Title1"></h3>
+            <input class="DisplayBox" type="time" onchange="ChangeTime(this)">
+            <p style="font-weight: bold; transform: translateY(-15px);">Watering time:</p>
+            <p class="View" id="Time1" style="transform: translateY(-25px);">-------------</p>
+        </div>
+    </div>
+
+<!-- https://tiny.pl/91lf9 -->
+</body>
+    <script>
+
+        function display() {
+            var checkBox = document.getElementById("myCheck");
+
+            var display = document.querySelectorAll(".DisplayBox");
+            var view = document.querySelectorAll(".View");
+
+            if (checkBox.checked == true){
+                // console.log(1);
+                for(var i = 0; i < display.length; i++) {
+                display[i].style.display = "block";
+                }
+                for(var i = 0; i < view.length; i++) {
+                view[i].style.opacity = "0";
+                }
+            } else {
+                // console.log(2);
+                for(var i = 0; i < display.length; i++) {
+                display[i].style.display = "none";
+                }
+                for(var i = 0; i < view.length; i++) {
+                view[i].style.opacity = "1";
+                }
+            }
+        }
+
+        // var berninis = document.querySelectorAll('.picasso, .matisse');
+        // for(var i = 0; i < berninis.length; i++) {
+        // berninis[i].style.color="#d1d1d1";
+        // }
+
+        const card1 = {};
+        const card2 = {};
+
+        function ChangeImg(x) {
+            const parent = x.parentElement;
+
+            const cardidshort = parent.parentElement;
+            const cardid = cardidshort.id.substring(4);
+            console.log(cardid);
+
+            const ImgChild = parent.children[1];
+            card1.img = x.value;
+            ImgChild.style.backgroundImage = 'url('+card1.img+')';
+            setCookie("img1", card1.img, { days: 10, path: "/" });
+            // console.log(ImgChild);
+        }
+
+        function ChangeTitle(x) {
+            const parent = x.parentElement;
+
+            const cardidshort = parent.parentElement;
+            const cardid = cardidshort.id.substring(4);
+            console.log(cardid);
+
+            const ImgChild = parent.children[1];
+            card1.title = x.value;
+            ImgChild.innerHTML = card1.title;
+            setCookie("title1", card1.title, { days: 10, path: "/" });
+            // console.log(ImgChild);
+        }
+
+        function ChangeTime(x) {
+            const parent = x.parentElement;
+
+            const cardidshort = parent.parentElement;
+            const cardid = cardidshort.id.substring(4);
+            console.log(cardid);
+
+            const ImgChild = parent.children[3];
+            // ImgChild.innerHTML = x.value;
+            // console.log(ImgChild);
+            const time = x.value.split(':');
+            const hours = time[0];
+            const min = time[1];
+            // console.log(hours + ' ' + min);
+
+            card1.time = new Date('01/15/2022 '+x.value);
+
+            // console.log(new Date(end.t1.setDate(end.t1.getDate() + 1)));
+        }
+
+        
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
+        
+        // const end = new Date('01/15/2022 12:25');
+        function showRemaining() {
+            const test = document.getElementById('Time1');
+            const now = new Date();
+
+            const distance = card1.time - now;
+
+            var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
+
+            if (distance < 0) {
+                test.innerHTML = 'Now!';
+                card1.time = new Date(card1.time.setDate(card1.time.getDate() + 1));
+            } else {
+                if (hours>0) {
+                document.getElementById('Time1').innerHTML = hours+'hrs '+minutes+'mins '+seconds+'secs';
+            } else if (minutes>0) {
+                document.getElementById('Time1').innerHTML = minutes+'mins '+seconds+'secs';
+            } else if (seconds>0) {
+                document.getElementById('Time1').innerHTML = seconds+'secs';
+            }
+            }
+        }
+
+        timer = setInterval(showRemaining, 1000);
+
+        function save() {
+            setCookie("date1", card1.time, { days: 10, path: "/" });
+        }
+
+        function load() {
+            card1.time = new Date(getCookie("date1"));
+            card1.img = getCookie("img1");
+            document.getElementById('Img1').style.backgroundImage = 'url('+card1.img+')';
+            card1.title = getCookie("title1");
+            document.getElementById('Title1').innerHTML = card1.title;
+        }
+
+    </script>
+</html>
